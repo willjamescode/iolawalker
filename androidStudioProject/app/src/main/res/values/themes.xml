@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Single AppCompat theme for the whole app -->
+    <style name="Theme.FootfallNG" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- You can tweak colours later -->
+        <item name="colorPrimary">@android:color/holo_blue_dark</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_dark</item>
+        <item name="colorAccent">@android:color/holo_orange_light</item>
+    </style>
+
+</resources>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">footfallNG</string>
+    <string name="title_connecting">Connecting…</string>
+    <string name="message_wait">Please wait…</string>
+    <string name="start_stream">Start Collecting IMU Data</string>
+    <string name="stop_stream">Stop Collecting IMU Data</string>
+    <string name="view_stored_data">View Stored Data</string>
+    <string name="device_not_supported">Device missing accelerometer</string>
+    <string name="step_detection_label">Step Detection with Sound</string>
+    <string name="step_count_format">Steps: %1$d</string>
+    <string name="neural_inference_label">Real-time Neural Inference</string>
+    <string name="inference_count_format">Detections: %1$d</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="format_sample_threshold">Sample thr: %.2f</string>
+    <string name="format_window_threshold">Window thr: %.2f</string>
+    <string name="format_min_interval">Min interval: %1$dms</string>
+    <string name="format_stride">Stride: %1$d</string>
+    <string name="format_hit_window">Hit window M: %1$d</string>
+    <string name="format_required_hits">Required hits N: %1$d</string>
+</resources>
