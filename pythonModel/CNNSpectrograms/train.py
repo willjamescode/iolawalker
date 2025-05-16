@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-cnn_pipeline.py
+train_spectrogram_cnn.py
 
-1) Prepare & cache sliding‐window dataset for 1D‐CNN
-2) Define CNN model
+1) Prepare & cache sliding‐window spectrogram dataset
+2) Define 2D‐CNN model
 3) Train & validate, saving best model
 """
 import os
@@ -17,12 +17,16 @@ from torch.optim import AdamW
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
 
-# ─── CONFIG ────────────────────────────────────────────────────────────
+# ─── CONFIG ────────────────────────────────────────────────────────────────
 CSV_PATH     = "/home/u/footfallTraining/train200hz.csv"
-CACHE_FILE   = "cnn_data.pt"
-MODEL_OUT    = "best_cnn.pth"
-WINDOW_SIZE  = 200   # 1s @200Hz
-STRIDE       = 50    # 75% overlap
+CACHE_FILE   = "spec_cnn_data.pt"
+MODEL_OUT    = "best_spec_cnn.pth"
+WINDOW_SEC    = 1.0      # seconds per window
+SR           = 200       # sampling rate (Hz)
+WINDOW_SIZE  = int(WINDOW_SEC * SR)
+STRIDE       = int(0.25 * WINDOW_SIZE)  # 75% overlap
+N_FFT        = 64        # FFT size for spectrogram
+HOP_LENGTH   = 32        # hop length for spectrogram
 BATCH_SIZE   = 64
 LR           = 1e-3
 EPOCHS       = 50
@@ -37,13 +41,14 @@ def build_and_cache():
     event_ts = df.loc[df.eventType=="footfall", "timestamp"].values
     samples  = df[df.eventType=="sample"].reset_index(drop=True)
 
-    # rename and convert
+    # rename and convert accelerometer columns
     samples = samples.rename(columns={
         "accelerationX":"ax",
         "accelerationY":"ay",
         "accelerationZ":"az"
     })
-    samples[["ax","ay","az"]] = samples[["ax","ay","az"]].astype(float)
+    for c in ("ax","ay","az"):
+        samples[c] = samples[c].astype(float)
 
     # label nearest sample to each footfall
     samples["target"] = 0
@@ -51,32 +56,39 @@ def build_and_cache():
         idx = (samples["timestamp"] - t).abs().idxmin()
         samples.at[idx, "target"] = 1
 
-    # magnitude channel
-    acc = samples[["ax","ay","az"]].values
-    samples["mag"] = np.linalg.norm(acc, axis=1)
-
-    # features + labels
-    feats  = samples[["ax","ay","az","mag"]].values.astype(np.float32)
+    # build raw windows
+    acc = samples[["ax","ay","az"]].values.astype(np.float32)  # (N,3)
     labels = samples["target"].values.astype(np.int64)
+    X_wins, y_wins = [], []
+    for start in range(0, len(acc) - WINDOW_SIZE + 1, STRIDE):
+        end = start + WINDOW_SIZE
+        X_wins.append(acc[start:end])            # (WINDOW_SIZE,3)
+        y_wins.append(int(labels[start:end].max()))
 
-    # scale
-    scaler = StandardScaler().fit(feats)
-    feats  = scaler.transform(feats).astype(np.float32)
-
-    # sliding windows
-    X_windows, y_windows = [], []
-    L = WINDOW_SIZE
-    for start in range(0, len(feats) - L + 1, STRIDE):
-        win = feats[start:start+L]      # (L,4)
-        X_windows.append(win.T)         # (4, L)
-        y_windows.append(labels[start+L-1])  # last sample’s label
-
-    X = torch.from_numpy(np.stack(X_windows))  # (N,4,L)
-    y = torch.from_numpy(np.array(y_windows))  # (N,)
+    # compute spectrogram per window & channel
+    specs = []
+    for win in X_wins:
+        # win: (WINDOW_SIZE,3)
+        # compute STFT along time for each of the 3 axes
+        ch_specs = []
+        for ch in range(3):
+            sig = torch.from_numpy(win[:,ch]).float()
+            S = torch.stft(sig,
+                           n_fft=N_FFT,
+                           hop_length=HOP_LENGTH,
+                           win_length=N_FFT,
+                           return_complex=True)
+            # magnitude spectrogram: (freq_bins, time_frames)
+            mag = torch.abs(S)
+            ch_specs.append(mag)
+        # stack channels → (3, freq_bins, time_frames)
+        specs.append(torch.stack(ch_specs))
+    X = torch.stack(specs)            # (N_windows,3,freq_bins,frames)
+    y = torch.tensor(y_wins, dtype=torch.long)
 
     # cache
     torch.save({"X": X, "y": y}, CACHE_FILE)
-    print(f"  ↳ built and cached dataset → {CACHE_FILE}")
+    print(f"  ↳ built and cached spectrogram dataset → {CACHE_FILE}")
     return X, y
 
 def load_or_build():
@@ -87,24 +99,22 @@ def load_or_build():
     else:
         return build_and_cache()
 
-# ─── 2) MODEL ────────────────────────────────────────────────────────────
-class FootfallCNN(nn.Module):
-    def __init__(self, in_channels=4):
+# ─── 2) MODEL ─────────────────────────────────────────────────────────────
+class SpecCNN(nn.Module):
+    def __init__(self, in_ch=3):
         super().__init__()
         self.net = nn.Sequential(
-            nn.Conv1d(in_channels, 16, kernel_size=5, padding=2),
-            nn.BatchNorm1d(16), nn.ReLU(),
-            nn.MaxPool1d(2),
+            nn.Conv2d(in_ch, 16, kernel_size=3, padding=1),
+            nn.BatchNorm2d(16), nn.ReLU(), nn.MaxPool2d(2),
 
-            nn.Conv1d(16, 32, kernel_size=5, padding=2),
-            nn.BatchNorm1d(32), nn.ReLU(),
-            nn.MaxPool1d(2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32), nn.ReLU(), nn.MaxPool2d(2),
 
-            nn.Conv1d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm1d(64), nn.ReLU(),
-            nn.AdaptiveMaxPool1d(1),
+            nn.Conv2d(32, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64), nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1,1)),
 
-            nn.Flatten(),              # (batch, 64)
+            nn.Flatten(),
             nn.Linear(64, 64), nn.ReLU(), nn.Dropout(0.3),
             nn.Linear(64, 1)           # output logits
         )
@@ -131,7 +141,7 @@ def train():
     val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
 
     # model + criterion + optim
-    model     = FootfallCNN().to(DEVICE)
+    model     = SpecCNN().to(DEVICE)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = AdamW(model.parameters(), lr=LR)
     scheduler = ReduceLROnPlateau(optimizer, mode="max", factor=0.5, patience=3)
@@ -140,7 +150,7 @@ def train():
     for epoch in range(1, EPOCHS+1):
         # train
         model.train()
-        total_loss = correct = total = 0
+        correct = total = 0
         for xb, yb in tqdm(trn_loader, desc=f"Epoch {epoch}/{EPOCHS} ▶ train"):
             xb, yb = xb.to(DEVICE), yb.to(DEVICE).float()
             optimizer.zero_grad()
@@ -149,30 +159,25 @@ def train():
             loss.backward()
             optimizer.step()
 
-            total_loss += loss.item() * xb.size(0)
-            preds       = (torch.sigmoid(logits) > 0.5).long()
-            correct    += (preds == yb.long()).sum().item()
-            total      += xb.size(0)
+            preds   = (torch.sigmoid(logits) > 0.5).long()
+            correct += (preds == yb.long()).sum().item()
+            total   += xb.size(0)
 
         train_acc = correct / total
 
         # validate
         model.eval()
-        vloss = correct = total = 0
+        correct = total = 0
         with torch.no_grad():
-            for xb, yb in tqdm(val_loader, desc=f"Epoch {epoch}/{EPOCHS} ▷ val  "):
+            for xb, yb in tqdm(val_loader, desc=f"Epoch {epoch}/{EPOCHS} ▷ val"):
                 xb, yb = xb.to(DEVICE), yb.to(DEVICE).float()
-                logits  = model(xb)
-                vloss  += criterion(logits, yb).item() * xb.size(0)
-                preds   = (torch.sigmoid(logits) > 0.5).long()
+                logits = model(xb)
+                preds  = (torch.sigmoid(logits) > 0.5).long()
                 correct += (preds == yb.long()).sum().item()
                 total   += xb.size(0)
 
         val_acc = correct / total
-        print(
-            f"Epoch {epoch:02d}: "
-            f"train_acc={train_acc:.4f} | val_acc={val_acc:.4f}"
-        )
+        print(f"Epoch {epoch:02d}: train_acc={train_acc:.4f} | val_acc={val_acc:.4f}")
 
         # save best
         if val_acc > best_acc:
