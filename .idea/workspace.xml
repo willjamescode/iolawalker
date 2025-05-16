@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9fb1f541-4519-4949-aa67-37a76a8709ed" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/footfallNG/.idea/ChatHistory_schema_v2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/footfallNG/.idea/ChatHistory_schema_v2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/attempt9 raw.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test12.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test200hz.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test4.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test7.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test8.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/test9.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/testdata.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/testdata2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train10.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train200hz.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train7 (copy).csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train8.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/train9.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallNG/traindata.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/bidirLstm/bi_lstm_scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/bidirLstm/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/bidirLstm/train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/best_footfall_cnn.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/cnn_event_stats.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/cnn_scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/cnn_test_performance.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/footfall_cnn.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/convNeuralNet/train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/logisticRegression/logistic_event_stats.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/logisticRegression/logistic_test_performance.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/best_diag.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/best_footfall_lstm.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/best_lstm_improved.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/best_model.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/best_refined.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/diag_ts.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/footfall_model_ts.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/lstm_improved_ts.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/lstm_scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/lstm_scaler_improved.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/lstm_test_performance.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/meta_diag.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/metadata_refined.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/model_ts.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/refined_ts.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/scaler.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/scaler_diag.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/scaler_improved.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/scaler_meta.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/scaler_refined.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/split.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/lstm/testWTolerance.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/neuralNet2/tcn_footfall.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/neuralNet2/tcn_scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/neuralNet2/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/neuralNet2/train.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/newtest.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/newtest2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/newtrain.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/newtrain2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/stackedLSTM/footfall_stacked_lstm.pth" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/stackedLSTM/lstm_scaler.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/stackedLSTM/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/footfallTraining/stackedLSTM/train.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/footfallNG" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2x9g36Pkqd5b2Jk7zTdrimIpXBr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "moreSaneDebugging",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/u/footfallDetectionProject/footfallNG"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9fb1f541-4519-4949-aa67-37a76a8709ed" name="Changes" comment="" />
+      <created>1747355500388</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747355500388</updated>
+    </task>
+    <servers />
+  </component>
+</project>
